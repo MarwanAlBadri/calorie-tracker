@@ -1,45 +1,46 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ListingSection from "./components/calorieRecordSection/ListingSection";
 import CaloriesRecordEdit from "./components/edit/CaloriesRecordEdit";
 import Modal from "react-modal";
 import styles from "./App.module.css";
 import {getDateFromString} from "./utils";
 
-const INITIAL_RECORDS = [
-	{
-		id: 1,
-		date: new Date(2023, 2, 1),
-		meal: "Breakfast",
-		content: "Eggs",
-		calories: -200,
-	},
-	{
-		id: 2,
-		date: new Date(2023, 2, 2),
-		meal: "Lunch",
-		content: "Chicken",
-		calories: 600,
-	},
-	{
-		id: 3,
-		date: new Date(2023, 2, 3),
-		meal: "Dinner",
-		content: "Cheese",
-		calories: 200,
-	},
-	{
-		id: 4,
-		date: new Date(2023, 2, 4),
-		meal: "Snack",
-		content: "Chocolate",
-		calories: 500,
-	},
-];
+const LOCAL_STORAGE_KEY = "calorieRecords";
+
+
 
 function App() {
-	const [records, setRecords] = useState(INITIAL_RECORDS);
-	const [nextId, setNextId] = useState(5);
+	const [records, setRecords] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [currentDate, setCurrentDate] = useState(new Date());
+
+	function save (){
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(records));
+	}
+
+	function loadRecords(){
+		const storageRecords = localStorage.getItem(LOCAL_STORAGE_KEY);
+		if(storageRecords !=null && storageRecords != "undefined"){
+			setRecords(JSON.parse(storageRecords).map((record) => {
+				return {
+					...record,
+					date: new Date(record.date),
+					calories: Number(record.calories)
+				};
+			}));
+		}else{
+			setRecords([]);
+		}
+	}
+
+
+	useEffect(() => {
+		if(!records){
+			loadRecords();
+		}else{
+			save();
+		}
+	}, [records]);
 
 	const modalStyles = {
 		content: {
@@ -70,9 +71,8 @@ function App() {
 		const formattedRecord = {
 			...record,
 			date: getDateFromString(record.date),
-			id: nextId,
+			id: crypto.randomUUID(),
 		};
-		setNextId((lastValue) => lastValue + 1);
 		setRecords([formattedRecord, ...records]);
 
 		handleCloseModal();
@@ -90,10 +90,12 @@ function App() {
 				<CaloriesRecordEdit
 					onFormSubmit={formSubmitHandler}
 					onCancel={handleCloseModal}
+					currentDate={currentDate}
+					setCurrentDate={setCurrentDate}
 				/>
 			</Modal>
 
-			<ListingSection allRecords={records} />
+			{records && <ListingSection allRecords={records} setCurrentDate={setCurrentDate} currentDate={currentDate} />}
 			<button className={styles["open-modal-button"]} onClick={handleOpenModal}>
 				Track food
 			</button>
