@@ -1,22 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RecordList from "./RecordList";
 import styles from "./ListingSection.module.css";
-import { getDateFromString, getDateStringNoTimezone } from "../../utils";
+import {  getDateStringNoTimezone } from "../../utils";
+import {AppContext} from "../../AppContext";
 
 function ListingSection(props) {
-    const { allRecords , currentDate ,setCurrentDate  } = props;
+    const { allRecords } = props;
+    const { currentDate, currentDateStr, setCurrentDate } = useContext(AppContext);
+
     // const [filteredRecord, setFilteredRecord] = useState([]);
-
-
     const dateChangeHandler = (event) => {
-        setCurrentDate(getDateFromString(event.target.value));
+        setCurrentDate(event.target.value);
     };
 
     const dateFilter = (record) =>
         record.date.getDate() === currentDate.getDate() &&
         record.date.getMonth() === currentDate.getMonth() &&
         record.date.getFullYear() === currentDate.getFullYear();
-
 
     return (
         <>
@@ -30,7 +30,7 @@ function ListingSection(props) {
                 id="ListingDate"
                 type="date"
                 className={styles["listing-picker-input"]}
-                value={getDateStringNoTimezone(currentDate)}
+                value={currentDateStr}
                 onChange={dateChangeHandler}
             />
             <RecordList records={allRecords.filter(dateFilter)} />
