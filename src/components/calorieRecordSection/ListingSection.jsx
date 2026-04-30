@@ -1,13 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import RecordList from "./RecordList";
 import styles from "./ListingSection.module.css";
-import {  getDateStringNoTimezone } from "../../utils";
 import {AppContext} from "../../AppContext";
 
 function ListingSection(props) {
     const { allRecords } = props;
     const { currentDate, currentDateStr, setCurrentDate } = useContext(AppContext);
-
     // const [filteredRecord, setFilteredRecord] = useState([]);
     const dateChangeHandler = (event) => {
         setCurrentDate(event.target.value);
@@ -34,6 +32,7 @@ function ListingSection(props) {
                 onChange={dateChangeHandler}
             />
             <RecordList records={allRecords.filter(dateFilter)} />
+            
         </>
     );
 }

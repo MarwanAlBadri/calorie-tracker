@@ -15,7 +15,6 @@ function AppContextProvider(props) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [totalCalories, setTotalCalories] = useState(0);
     const updateCurrentDate = (val) => {
-        debugger;
         setCurrentDate(getDateFromString(val));
     }
     const currentDateStr = !!currentDate ? currentDate.toISOString().split("T")[0] :"";
