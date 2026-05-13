@@ -1,18 +1,40 @@
-# React + Vite
+# Calorie Tracker Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a demo react application with a small server to perform fetch requests to perform CRUD operations on in-memory data.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- install node
 
-## React Compiler
+- install project dependencies
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+```
+npm install-all
+```
 
-Note: This will impact Vite dev & build performances.
+- start client and server
 
-## Expanding the ESLint configuration
+```
+npm run start
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- To close both client and server, hit Ctrl+c
+
+## Front-end
+
+React based project using vite setup.
+
+## Back-end
+
+Small server with in-memory SQLite database that starts with random data for the past 60 days (day in / day out).
+
+## API
+
+- List all: http://localhost:3000/records (GET)
+- List for specific date: http://localhost:3000/records?date=2000-2-28 (GET)
+- Get specific record: http://localhost:3000/records/:id (GET)
+- Create new record: http://localhost:3000/records (POST)
+- Update existing record: http://localhost:3000/records/:id (PUT)
+- Delete existing record: http://localhost:3000/records/:id (DELETE)
+
+More details can be found in _packages/server/README.md_

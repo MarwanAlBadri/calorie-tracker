@@ -1,33 +1,35 @@
 {
-  "name": "calorie-tracker",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "calorie-tracker-app",
+  "version": "1.0.0",
+  "description": "This is a demo react application with a small server to perform fetch requests to perform CRUD operations on in-memory data.",
+  "keywords": [],
+  "homepage": "https://github.com/MarwanAlBadri/calorie-tracker#readme",
+  "bugs": {
+    "url": "https://github.com/MarwanAlBadri/calorie-tracker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarwanAlBadri/calorie-tracker.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "install-all": "lerna exec -- npm install",
+    "start:client": "lerna run --scope client start --stream",
+    "start:server": "lerna run --scope server start --stream",
+    "start": "concurrently --kill-others \"npm run start:server\" \"npm run start:client\""
   },
   "dependencies": {
-    "all": "^0.0.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-modal": "^3.16.3",
-    "react-router-dom": "^7.14.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
-    "@eslint/js": "^9.39.4",
-    "@rolldown/plugin-babel": "^0.2.2",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
-    "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9.39.4",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
-    "globals": "^17.4.0",
-    "vite": "^8.0.4"
+    "concurrently": "^8.2.0",
+    "lerna": "^7.1.1"
   }
 }
